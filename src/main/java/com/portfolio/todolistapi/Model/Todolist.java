@@ -31,18 +31,12 @@ public class Todolist implements Serializable {
     private String description = "";
     @Column(nullable = false)
     private Instant createdAt = Instant.now();
-    @OneToMany(mappedBy = "todolist", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "todolist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Collection<Todo> todos = new ArrayList<>();
 
     public Todolist(Long id, String owner) {
         this.id = id;
-        this.owner = owner;
-    }
-
-    public Todolist(String name, String description, String owner) {
-        this.name = name;
-        this.description = description;
         this.owner = owner;
     }
 

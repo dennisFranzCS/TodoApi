@@ -1,7 +1,6 @@
 package com.portfolio.todolistapi.Controller;
 
 import com.portfolio.todolistapi.ModelDTO.TodolistDTO;
-import com.portfolio.todolistapi.Services.TodoService;
 import com.portfolio.todolistapi.Services.TodolistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,9 @@ import java.util.Collection;
 @RequestMapping(path = "/api/v1")
 public class TodolistController {
     private final TodolistService todolistService;
-    private final TodoService todoService;
 
     @Autowired
-    public TodolistController(TodoService todoService, TodolistService todolistService) {
-        this.todoService = todoService;
+    public TodolistController(TodolistService todolistService) {
         this.todolistService = todolistService;
     }
 
@@ -44,10 +41,6 @@ public class TodolistController {
 
     @DeleteMapping(path = "/todolist/{todolistId}")
     public ResponseEntity<TodolistDTO> deleteTodolist(@PathVariable Long todolistId, Principal principal) {
-        TodolistDTO todolist = todolistService.deleteTodolist(todolistId, principal.getName());
-
-        // already successfully checked ownership and deleted todolist, delete all remaining todos
-        todoService.deleteAllTodos(todolist.id(), principal.getName());
-        return ResponseEntity.ok(todolist);
+        return ResponseEntity.ok(todolistService.deleteTodolist(todolistId, principal.getName()));
     }
 }

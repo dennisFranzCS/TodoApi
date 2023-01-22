@@ -103,8 +103,4 @@ public class TodoService {
 
         return todoDTOMapper.apply(todo);
     }
-
-    public void deleteAllTodos(Long todolistId, String owner) throws AccessDeniedException {
-        todoRepository.deleteAllByTodolistIdAndOwner(todolistId, owner);
-    }
 }

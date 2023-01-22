@@ -288,17 +288,4 @@ class TodoServiceTest {
         verify(todoRepository).findById(todoToDelete.getId());
         verify(todoRepository, never()).deleteById(any());
     }
-
-    @Test
-    void deleteAllTodos() {
-        // given
-        Long todolistId = 1L;
-        String todolistOwner = "todolist_owner";
-
-        // when
-        underTest.deleteAllTodos(todolistId, todolistOwner);
-
-        // then
-        verify(todoRepository).deleteAllByTodolistIdAndOwner(todolistId, todolistOwner);
-    }
 }
