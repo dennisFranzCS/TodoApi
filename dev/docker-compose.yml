@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  kc-db:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: my_admin
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: keycloak_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${KC_DB_VOLUME_PATH}:/var/lib/postgresql/data
+  todo-db:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: todo_api
+    ports:
+      - "${TODO_DB_PORT}:5432"
+  kc:
+    image: quay.io/keycloak/keycloak:20.0
+    environment:
+      KC_DB: postgres
+      KC_DB_USERNAME: my_admin
+      KC_DB_PASSWORD: my_password
+      KC_DB_URL: jdbc:postgresql://kc-db:5432/keycloak_db
+      KC_HOSTNAME: localhost
+      KEYCLOAK_ADMIN: kc_admin
+      KEYCLOAK_ADMIN_PASSWORD: kc_password
+    ports:
+      - "${KC_PORT}:8080"
+    depends_on:
+      - kc-db
+    command:
+      - start-dev
