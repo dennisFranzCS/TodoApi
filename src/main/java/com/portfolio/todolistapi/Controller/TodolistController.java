@@ -3,6 +3,7 @@ package com.portfolio.todolistapi.Controller;
 import com.portfolio.todolistapi.ModelDTO.TodolistDTO;
 import com.portfolio.todolistapi.Services.TodolistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,9 @@ public class TodolistController {
 
     @PostMapping(path = "/todolist/")
     public ResponseEntity<TodolistDTO> createTodolist(@RequestBody TodolistDTO todolist, Principal principal) {
-        return ResponseEntity.ok(todolistService.createTodolist(todolist, principal.getName()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(todolistService.createTodolist(todolist, principal.getName()));
     }
 
     @PutMapping(path = "/todolist/{todolistId}")

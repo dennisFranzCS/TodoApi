@@ -16,11 +16,11 @@ import jakarta.persistence.EntityNotFoundException;
 @ControllerAdvice
 @Slf4j
 public class ExceptionController extends ResponseEntityExceptionHandler {
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public @ResponseBody ExceptionDTO handleEntityNotFoundException(EntityNotFoundException exception){
         log.debug("Handled an entity not found exception.");
-        return new ExceptionDTO("Requested resources is not available.", HttpStatus.BAD_REQUEST);
+        return new ExceptionDTO("Requested resources is not available.", HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
