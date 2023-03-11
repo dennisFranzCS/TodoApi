@@ -23,6 +23,7 @@ pipeline {
       steps {
         echo "Building with Branch: ${GIT_BRANCH}"
         sh '''
+          chmod +x mvnw
           ./mvnw clean install -DskipTests
         '''
       }
