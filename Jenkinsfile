@@ -22,11 +22,17 @@ pipeline {
     stage('Build') {
       steps {
         echo "Building with Branch: ${GIT_BRANCH}"
+        sh '''
+          ./mvnw clean install -DskipTests
+        '''
       }
     }
     stage('Test') {
       steps {
         echo 'Testing...'
+        sh '''
+          ./mvnw surefire:test
+        '''
       }
     }
     stage('Deliver') {
